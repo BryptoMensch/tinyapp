@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/BryptoMensch/tinyapp/issues"
   },
-  "homepage": "https://github.com/BryptoMensch/tinyapp#readme"
+  "homepage": "https://github.com/BryptoMensch/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
 }
