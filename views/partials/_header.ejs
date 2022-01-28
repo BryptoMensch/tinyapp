@@ -1,6 +1,6 @@
 <header>
 	<nav class="navbar navbar-expand-md navbar-dark bg-success">
-		<a class="navbar-brand" href="/urls">TinyApp</a>
+		<a class="navbar-brand" href="/register">TinyApp</a>
 		<button
 			class="navbar-toggler"
 			type="button"
@@ -14,28 +14,35 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link" href="/urls">My URLs</a>
-				<a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-				<a class="nav-item nav-link" href="/register">Register</a>
+				
+				
 			</div>
-			<ul class="navbar-nav ml-auto">
+			<ul class="nav nav-pills nav-fill">				
 				<li class="nav-item">
-
-		
 				<% if (user) { %> 
 					Logged in as: <%=user.email %>
-				
-
 					<form action="/logout" method="POST">
-						<button type="submit" >
+						<button class="btn btn-primary btn-sm" type="submit" >
 							Logout
 						</button>
 					</form>
-
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/urls">My URLs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/urls/new">Create New URL</a>
+				</li>
+			</ul>
 					<%} else {%>
+				<!-- <ul class="nav justify-content-end"> -->
+				<li class="nav-item">
 					<a class="nav-item nav-link" name="login" href="/login">Login</a>
+				</li>
+				<li class="nav-item">	
+					<a class="nav-item nav-link" href="/register">Register</a>
+				</li>	
 				<%}%>
-			</li>
 		</ul>
 	</nav>
 </header>
