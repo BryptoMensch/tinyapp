@@ -27,6 +27,7 @@ app.listen(PORT, () => {
 
 // ***** DATABASES ***** //
 
+// URL DATABASE
 const urlDatabase = {
 	b6UTxQ: {
 			longURL: "https://www.tsn.ca",
@@ -38,6 +39,7 @@ const urlDatabase = {
 	}
 };
 
+// USER DATABASE
 const users = {
 	"userRandomID": {
     id: "userRandomID", 
@@ -53,7 +55,7 @@ const users = {
 
 // ***** URL GET ROUTES***** //
 
-// INDEX PAGE - REDIRECTS TO EITHER LOGIN OR URLS
+// INDEX PAGE. REDIRECTS TO EITHER LOGIN OR URLS
 app.get("/", (req, res) => {
   if (!req.session["user_id"]) {
     return res.redirect("/login");
@@ -76,7 +78,7 @@ app.get("/urls", (req, res) => {
 	res.render("urls_index", templateVars);
 });
 
-// NEW URL CLIENT REQUEST
+// GET NEW URL, REDIRECTS TO URLS_NEW
 app.get("/urls/new", (req, res) => {
 	const user_id = req.session["user_id"];
 	const user = users[user_id];
@@ -87,7 +89,7 @@ app.get("/urls/new", (req, res) => {
 	res.render("urls_new", templateVars);
 });
 
-// USER ID/SHORT URL GET
+// GET USER ID/SHORT URL
 app.get("/urls/:shortURL", (req, res) => {
 	const user_id = req.session["user_id"];
 	const user = users[user_id];
@@ -99,7 +101,7 @@ app.get("/urls/:shortURL", (req, res) => {
 	res.render("urls_show", templateVars);
 });
 
-// REDIRECT TO FULL URL WITH ADDED CONDITIONALS
+// REDIRECT TO FULL URL WITH CONDITIONALS
 app.get("/u/:shortURL", (req, res) => {
 	const user_id = req.session["user_id"];
 	const user = users[user_id];
@@ -131,6 +133,7 @@ app.post("/urls", (req, res) => {
 app.post("/urls/:shortURL/delete", (req, res) => {
 	const user_id = req.session["user_id"];
 	const url = urlDatabase[req.params.shortURL];
+	
 	if(url){
 		if(url.userID !== user_id) {
 			return res.status(400).send("Permission denied. You cannot delete this URL. <a href='/urls/new'> Click here to create your URLs</a>");
@@ -148,6 +151,7 @@ app.post("/urls/:shortURL/edit", (req, res) => {
 	const longURL = req.body.longURL;
 	const user_id = req.session["user_id"];
 	const url = urlDatabase[shortURL];
+	
 	if(url) {
 		if(url.userID !== user_id) {
 			return res.status(400).send("Permission denied. You cannot edit this URL. <a href='/urls/new'> Click here to create your URLs</a>");
@@ -215,13 +219,13 @@ app.post("/register", (req,res) => {
 
 // ALLOWS USER TO LOGIN, REDIRECTS, WITH CONDITIONALS
 app.post("/login", (req, res) => {
+	const user_id = req.session["user_id"];
 	let email = req.body.email;
 	let password = req.body.password;
 
 	const user = authenticateUser(email, password, users);
 
-	if(user) {
-		req.session['user_id'] = user.id;
+	if(user_id) {
 		res.redirect("/urls");
 	} else {
 		res.status(401).send('Wrong credentials!');
